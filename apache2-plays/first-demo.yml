@@ -1,11 +1,9 @@
 - name: installing apache2
-  hosts: all
-  become: yes
+  hosts: all                # where to execute
+  become: yes               # whether to run the tasks with sudo
   tasks:
     - name: install apache2
       ansible.builtin.apt:
         update_cache: yes
-        name: apache2
+        name: apache2       # name of package want to install
         state: present
-
-

@@ -7,6 +7,10 @@
         update_cache: yes
         name: openjdk-11-jdk
         state: present
+    - name: create group
+      ansible.builtin.group:
+        name: tomcat
+        state: present
     - name: create user
       ansible.builtin.user:
         create_home: yes

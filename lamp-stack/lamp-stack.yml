@@ -22,4 +22,4 @@
     - name: creating info.php file
       ansible.builtin.copy:
         src: info.php
-        dest: info.php
+        dest: /var/www/html/info.php

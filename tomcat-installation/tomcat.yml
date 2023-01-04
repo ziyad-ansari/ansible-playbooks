@@ -41,7 +41,7 @@
       ansible.builtin.command:
         cmd: sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
     - name: creating system D unit file
-      ansible.builtin.file:
+      ansible.builtin.copy:
         src: tomcat.service
         dest: /etc/systemd/system/tomcat.service
         group: tomcat

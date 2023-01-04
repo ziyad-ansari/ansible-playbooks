@@ -37,3 +37,6 @@
         path: /opt/tomcat
         recurse: true
         state: directory
+    - name: executing script
+      ansible.builtin.command:
+        cmd: sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'

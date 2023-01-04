@@ -51,3 +51,11 @@
         daemon_reload: true
         name: tomcat.service
         state: started
+    - name: changing in tomcat-users.xml
+      ansible.builtin.copy:
+        src: tomcat-users.xml
+        dest: /opt/tomcat/latest/conf/tomcat-users.xml
+        owner: tomcat
+        group: tomcat
+
+          

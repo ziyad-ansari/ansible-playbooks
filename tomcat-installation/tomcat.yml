@@ -69,9 +69,8 @@
         dest: /opt/tomcat/latest/webapps/host-manager/META-INF/context.xml
         owner: tomcat
         group: tomcat
-    - name: daemon reload and starting tomcat service
+    - name: daemon reload and restarting tomcat service
       ansible.builtin.systemd:
-        daemon_reload: true
         name: tomcat.service
         state: restarted
       

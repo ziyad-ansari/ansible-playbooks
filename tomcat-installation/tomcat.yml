@@ -21,9 +21,19 @@
         state: present
     - name: downloading tomcat
       ansible.builtin.unarchive:
-        remote_src: yes
         src: https://www-eu.apache.org/dist/tomcat/tomcat-10/v10.1.4/bin/apache-tomcat-10.1.4.tar.gz 
         dest: /opt/tomcat
         remote_src: true
         group: tomcat
-        
+    - name: adding links
+      ansible.builtin.file:
+        src: /opt/tomcat/apache-tomcat-10.1.4
+        path: /opt/tomcat/latest
+        state: link
+    - name: changing ownership
+      ansible.builtin.file:
+        owner: tomcat
+        group: tomcat
+        path: /opt/tomcat
+        recurse: true
+        state: directory

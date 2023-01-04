@@ -19,3 +19,7 @@
       ansible.builtin.apt:
         name: php-mysql
         state: present
+    - name: creating info.php file
+      ansible.builtin.copy:
+        src: info.php
+        dest: info.php

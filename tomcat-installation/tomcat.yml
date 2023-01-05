@@ -32,8 +32,8 @@
         group: "{{ group_name }}"
     - name: adding links
       ansible.builtin.file:
-        src: "{{ user_home }}"/apache-tomcat-10.1.4
-        path: "{{ user_home }}"/latest
+        src: "{{ user_home }}/apache-tomcat-10.1.4"
+        path: "{{ user_home }}/latest"
         state: link
     - name: changing ownership
       ansible.builtin.file:
@@ -44,7 +44,7 @@
         state: directory
     - name: executing script
       ansible.builtin.command:
-        cmd: sudo sh -c 'chmod +x "{{ user_home }}"/latest/bin/*.sh'
+        cmd: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
     - name: creating system D unit file
       ansible.builtin.copy:
         src: tomcat.service
@@ -59,19 +59,19 @@
     - name: changing in tomcat-users.xml
       ansible.builtin.copy:
         src: tomcat-users.xml
-        dest: "{{ user_home }}"/latest/conf/tomcat-users.xml
+        dest: "{{ user_home }}/latest/conf/tomcat-users.xml"
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
     - name: changing in context file
       ansible.builtin.copy:
         src: context.xml
-        dest: "{{ user_home }}"/latest/webapps/manager/META-INF/context.xml
+        dest: "{{ user_home }}/latest/webapps/manager/META-INF/context.xml"
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
     - name: changing in context file
       ansible.builtin.copy:
         src: context.xml
-        dest: "{{ user_home }}"/latest/webapps/host-manager/META-INF/context.xml
+        dest: "{{ user_home }}/latest/webapps/host-manager/META-INF/context.xml"
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
     - name: restarting tomcat service

@@ -6,7 +6,7 @@
       ansible.builtin.package:
         name: "{{ java_package_name }}"
         state: present
-        - name: create group
+    - name: create group
       ansible.builtin.group:
         name: "{{ group_name }}"
         state: present

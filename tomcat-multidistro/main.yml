@@ -1,0 +1,8 @@
+- name: installing tomcat for multi-distro
+  hosts: all
+  become: true
+  tasks:
+    - name: installing jdk-11
+      ansible.builtin.package:
+        name: "{{ java_package_name }}"
+        state: present

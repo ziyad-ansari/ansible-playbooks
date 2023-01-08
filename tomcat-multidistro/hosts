@@ -1,6 +1,6 @@
 [webserver]
-172.19.0.5  java_package_name=openjdk-11-jdk
-172.19.0.7  java_package_name=java-11-openjdk-devel
+172.19.0.9  java_package_name=openjdk-11-jdk
+172.19.0.6  java_package_name=java-11-openjdk-devel
 
 [webserver:vars]
 user_name=tomcat

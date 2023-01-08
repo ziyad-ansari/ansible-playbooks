@@ -39,3 +39,17 @@
     - name: executing script
       ansible.builtin.command:
         cmd: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
+    - name: creating system D unit file
+      ansible.builtin.copy:
+        src: ubuntu.tomcat.service
+        dest: "/etc/systemd/system/{{ service_name }}"
+        group: "{{ user_name }}"
+        owner: "{{ group_name }}"
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: creating system D unit file
+      ansible.builtin.copy:
+        src: ubuntu.tomcat.service
+        dest: "/etc/systemd/system/{{ service_name }}"
+        group: "{{ user_name }}"
+        owner: "{{ group_name }}"
+      when: ansible_facts['distribution'] == "CentOS"

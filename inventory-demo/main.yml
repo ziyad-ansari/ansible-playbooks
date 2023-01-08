@@ -1,0 +1,6 @@
+- name: vars in hosts file
+  hosts: all
+  tasks:
+    - name: print variables
+      ansible.builtin.debug:
+        msg: hello-vars

@@ -1,11 +1,15 @@
 - name: install tomcat on ubuntu
   hosts: all
   become: yes
-  vars: 
+  vars:                                     # define variables below
     user_name: tomcat
     group_name: tomcat
     java_package_name: openjdk-11-jdk
     user_home: /opt/tomcat
+    service_name: tomcat.service
+    tomcat_version: "10.1.4"
+    tomcat_major_version: "10"
+    shell: /bin/false                   
   tasks:
     - name: jdk install
       ansible.builtin.apt:
@@ -22,17 +26,17 @@
         group: "{{ group_name }}"
         home: "{{ user_home }}"
         name: "{{ user_name }}"
-        shell: /bin/false
+        shell: "{{ shell }}"
         state: present
     - name: downloading tomcat
       ansible.builtin.unarchive:
-        src: https://www-eu.apache.org/dist/tomcat/tomcat-10/v10.1.4/bin/apache-tomcat-10.1.4.tar.gz 
+        src: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz" 
         dest: "{{ user_home }}"
         remote_src: true
         group: "{{ group_name }}"
     - name: adding links
       ansible.builtin.file:
-        src: "{{ user_home }}/apache-tomcat-10.1.4"
+        src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
         path: "{{ user_home }}/latest"
         state: link
     - name: changing ownership
@@ -47,14 +51,14 @@
         cmd: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
     - name: creating system D unit file
       ansible.builtin.copy:
-        src: tomcat.service
-        dest: /etc/systemd/system/tomcat.service
+        src: "{{ service_name }}"
+        dest: "/etc/systemd/system/{{ service_name }}"
         group: "{{ user_name }}"
         owner: "{{ group_name }}"
     - name: daemon reload and starting tomcat service
       ansible.builtin.systemd:
         daemon_reload: true
-        name: tomcat.service
+        name: "{{ service_name }}"
         state: started
     - name: changing in tomcat-users.xml
       ansible.builtin.copy:
@@ -76,8 +80,6 @@
         group: "{{ group_name }}"
     - name: restarting tomcat service
       ansible.builtin.systemd:
-        name: tomcat.service
+        name: "{{ service_name }}"
         state: restarted
-      
-
           

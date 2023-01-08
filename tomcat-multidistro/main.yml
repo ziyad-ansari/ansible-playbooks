@@ -6,3 +6,36 @@
       ansible.builtin.package:
         name: "{{ java_package_name }}"
         state: present
+        - name: create group
+      ansible.builtin.group:
+        name: "{{ group_name }}"
+        state: present
+    - name: create user
+      ansible.builtin.user:
+        create_home: yes
+        group: "{{ group_name }}"
+        home: "{{ user_home }}"
+        name: "{{ user_name }}"
+        shell: "{{ shell }}"
+        state: present
+    - name: downloading tomcat
+      ansible.builtin.unarchive:
+        src: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz" 
+        dest: "{{ user_home }}"
+        remote_src: true
+        group: "{{ group_name }}"
+    - name: adding links
+      ansible.builtin.file:
+        src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
+        path: "{{ user_home }}/latest"
+        state: link
+    - name: changing ownership
+      ansible.builtin.file:
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        path: "{{ user_home }}"
+        recurse: true
+        state: directory
+    - name: executing script
+      ansible.builtin.command:
+        cmd: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"

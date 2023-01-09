@@ -21,19 +21,20 @@
     - name: adding stat
       ansible.builtin.stat:
         path: "{{ user_home }}/latest/bin/startup.sh"
-      register: file_data
+      register: tomcat_startup
     - name: downloading tomcat
       ansible.builtin.unarchive:
         src: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz" 
         dest: "{{ user_home }}"
         remote_src: true
         group: "{{ group_name }}"
-      when: not file_data.stat.exists
+      when: not tomcat_startup.stat.exists
     - name: adding links
       ansible.builtin.file:
         src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
         path: "{{ user_home }}/latest"
         state: link
+      when: not tomcat_startup.stat.exists
     - name: changing ownership
       ansible.builtin.file:
         owner: "{{ user_name }}"
@@ -41,9 +42,11 @@
         path: "{{ user_home }}"
         recurse: true
         state: directory
+      when: not tomcat_startup.stat.exists
     - name: executing script
       ansible.builtin.command:
         cmd: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
+      when: not tomcat_startup.stat.exists
     - name: creating system D unit file
       ansible.builtin.copy:
         src: ubuntu.tomcat.service

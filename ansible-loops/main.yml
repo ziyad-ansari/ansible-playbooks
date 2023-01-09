@@ -1,0 +1,7 @@
+- name: loops-demo
+  hosts: all
+  tasks:
+    - name: installing packages
+      ansible.builtin.package:
+        name: "{{ item }}"
+      loop: "{{ packages }}"

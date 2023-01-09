@@ -1,6 +1,6 @@
 - name: installing tomcat for multi-distro
   hosts: all
-  become: yes
+  become: yes         
   tasks:
     - name: installing jdk-11
       ansible.builtin.package:

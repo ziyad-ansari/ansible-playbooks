@@ -1,2 +1,2 @@
-[my-servers]
+[myserver]
 172.19.0.7 packages='["git", "tree", "nano", "net-tools"]'

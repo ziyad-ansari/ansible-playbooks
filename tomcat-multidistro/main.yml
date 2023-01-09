@@ -54,6 +54,8 @@
         group: "{{ user_name }}"
         owner: "{{ group_name }}"
       when: ansible_facts['distribution'] == "Ubuntu"
+      notify:
+      - enable and reload tomcat
     - name: creating system D unit file
       ansible.builtin.copy:
         src: centos.tomcat.service
@@ -61,8 +63,43 @@
         group: "{{ user_name }}"
         owner: "{{ group_name }}"
       when: ansible_facts['distribution'] == "CentOS"
-    - name: daemon reload and starting tomcat service
+      notify:
+      - enable and reload tomcat
+    - name: changing in tomcat-users.xml
+      ansible.builtin.copy:
+        src: tomcat-users.xml
+        dest: "{{ user_home }}/latest/conf/tomcat-users.xml"
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+      notify:
+        - restart tomcat
+    - name: changing in context file
+      ansible.builtin.copy:
+        src: context.xml
+        dest: "{{ user_home }}/latest/webapps/manager/META-INF/context.xml"
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+      notify:
+        - restart tomcat
+    - name: changing in context file
+      ansible.builtin.copy:
+        src: context.xml
+        dest: "{{ user_home }}/latest/webapps/host-manager/META-INF/context.xml"
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+      notify:
+        - restart tomcat
+    - name: starting tomcat service
       ansible.builtin.systemd:
-        daemon_reload: true
         name: "{{ service_name }}"
         state: started
+  handlers:
+    - name: restart tomcat
+      ansible.builtin.systemd:
+        name: "{{ service_name }}"
+        state: restarted
+    - name: enable and reload tomcat
+      ansible.builtin.systemd:
+        name: "{{ service_name }}"
+        daemon_reload: true
+        state: reloaded

@@ -69,8 +69,8 @@
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
       loop:
-        - {{ user_home }}/latest/webapps/manager/META-INF/context.xml
-        - {{ user_home }}/latest/webapps/host-manager/META-INF/context.xml
+        - "{{ user_home }}/latest/webapps/manager/META-INF/context.xml"
+        - "{{ user_home }}/latest/webapps/host-manager/META-INF/context.xml"
       notify:
         - restart tomcat
     - name: starting tomcat service

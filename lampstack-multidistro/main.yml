@@ -1,0 +1,13 @@
+- name: installing lampstack for multidistro
+  hosts: all
+  become: true
+  tasks:
+    - name: installing apache
+      ansible.builtin.package:
+        name: "{{ apache2_package_name }}"
+        state: present
+    - name: installing php
+      ansible.builtin.package:
+        name: "{{ php_package_name }}"
+        state: present
+    

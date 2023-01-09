@@ -1,6 +1,6 @@
 - name: installing tomcat for multi-distro
   hosts: all
-  become: true
+  become: yes
   tasks:
     - name: installing jdk-11
       ansible.builtin.package:
@@ -18,12 +18,17 @@
         name: "{{ user_name }}"
         shell: "{{ shell }}"
         state: present
+    - name: adding stat
+      ansible.builtin.stat:
+        path: "{{ user_home }}/apache-tomcat-10.1.4"
+        register: file_data
     - name: downloading tomcat
       ansible.builtin.unarchive:
         src: "https://www-eu.apache.org/dist/tomcat/tomcat-{{ tomcat_major_version }}/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz" 
         dest: "{{ user_home }}"
         remote_src: true
         group: "{{ group_name }}"
+      when: not file_data.stat.exists
     - name: adding links
       ansible.builtin.file:
         src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
@@ -48,8 +53,13 @@
       when: ansible_facts['distribution'] == "Ubuntu"
     - name: creating system D unit file
       ansible.builtin.copy:
-        src: ubuntu.tomcat.service
+        src: centos.tomcat.service
         dest: "/etc/systemd/system/{{ service_name }}"
         group: "{{ user_name }}"
         owner: "{{ group_name }}"
       when: ansible_facts['distribution'] == "CentOS"
+    - name: daemon reload and starting tomcat service
+      ansible.builtin.systemd:
+        daemon_reload: true
+        name: "{{ service_name }}"
+        state: started

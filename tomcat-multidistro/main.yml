@@ -29,20 +29,9 @@
         remote_src: true
         group: "{{ group_name }}"
       when: not tomcat_startup.stat.exists
-    - name: adding links
-      ansible.builtin.file:
-        src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
-        path: "{{ user_home }}/latest"
-        state: link
-      when: not tomcat_startup.stat.exists
-    - name: changing ownership
-      ansible.builtin.file:
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-        path: "{{ user_home }}"
-        recurse: true
-        state: directory
-      when: not tomcat_startup.stat.exists
+      notify:
+        - add links
+        - change ownership
     - name: executing script
       ansible.builtin.command:
         cmd: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
@@ -103,3 +92,15 @@
         name: "{{ service_name }}"
         daemon_reload: true
         state: reloaded
+    - name: add links
+      ansible.builtin.file:
+        src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
+        path: "{{ user_home }}/latest"
+        state: link
+    - name: change ownership
+      ansible.builtin.file:
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        path: "{{ user_home }}"
+        recurse: true
+        state: directory

@@ -20,7 +20,7 @@
         state: present
     - name: adding stat
       ansible.builtin.stat:
-        path: "{{ user_home }}/apache-tomcat-10.1.4"
+        path: "{{ user_home }}/latest/bin/startup.sh"
         register: file_data
     - name: downloading tomcat
       ansible.builtin.unarchive:

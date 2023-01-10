@@ -1,7 +1,7 @@
-user_name=tomcat
-group_name=tomcat
-user_home=/opt/tomcat
-service_name=tomcat.service
-tomcat_version="10.1.4"
-tomcat_major_version="10"
-shell=/bin/false
+user_name: tomcat
+group_name: tomcat
+user_home: /opt/tomcat
+service_name: tomcat.service
+tomcat_version: "10.1.4"
+tomcat_major_version: "10"
+shell: /bin/false

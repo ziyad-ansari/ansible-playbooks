@@ -1,3 +1,9 @@
-localhost
+[ubuntu]
+172.19.0.5
 
- 
+[centos]
+172.19.0.3
+
+[appserver] 
+172.19.0.5
+172.19.0.3

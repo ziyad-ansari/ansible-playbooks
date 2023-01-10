@@ -1,13 +1,4 @@
-[webserver]
-172.19.0.9  java_package_name=openjdk-11-jdk
-172.19.0.7  java_package_name=java-11-openjdk-devel
-
-[webserver:vars]
-user_name=tomcat
-group_name=tomcat
-java_package_name=openjdk-11-jdk
-user_home=/opt/tomcat
-service_name=tomcat.service
-tomcat_version="10.1.4"
-tomcat_major_version="10"
-shell=/bin/false
+[ubuntu]
+172.19.0.5
+[centos]  
+172.19.0.3  

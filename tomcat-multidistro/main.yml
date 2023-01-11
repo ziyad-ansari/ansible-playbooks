@@ -53,7 +53,8 @@
         mode: +x
         state: file
       with_items: "{{ output.files }}"
-      when: not tomcat_startup.stat.exists
+    - name: executing shell files
+      ansible.builtin.command: "sudo sh {{ output.files }}"
     - name: creating system D unit file
       ansible.builtin.copy:
         src: ubuntu.tomcat.service
@@ -78,8 +79,6 @@
         dest: "{{ user_home }}/latest/conf/tomcat-users.xml"
         owner: "{{ user_name }}"
         group: "{{ group_name }}"
-      notify:
-        - restart tomcat
       notify:
         - restart tomcat
     - name: change in context file

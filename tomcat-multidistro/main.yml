@@ -1,4 +1,4 @@
-- name: installing tomcat for multi-distro
+- name: installing tomcat for multi-distributions
   hosts: all
   become: yes         
   tasks:

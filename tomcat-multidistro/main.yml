@@ -29,8 +29,6 @@
         remote_src: true
         group: "{{ group_name }}"
       when: not tomcat_startup.stat.exists
-      notify:
-        - change ownership
     - name: add links
       ansible.builtin.file:
         src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
@@ -46,7 +44,6 @@
       ansible.builtin.file:
         path: "{{ output.files }}"
         mode: +x
-    
       when: not tomcat_startup.stat.exists
     - name: creating system D unit file
       ansible.builtin.copy:

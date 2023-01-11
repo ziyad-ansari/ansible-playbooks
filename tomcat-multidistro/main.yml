@@ -46,8 +46,7 @@
       ansible.builtin.file:
         path: "{{ output.files }}"
         mode: +x
-    - name: executing script
-      ansible.builtin.command: "sudo sh -c {{ user_home }}/latest/bin/*.sh'"
+    
       when: not tomcat_startup.stat.exists
     - name: creating system D unit file
       ansible.builtin.copy:

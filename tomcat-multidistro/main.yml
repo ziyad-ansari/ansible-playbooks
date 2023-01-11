@@ -36,8 +36,19 @@
         src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
         path: "{{ user_home }}/latest"
         state: link
+    - name: finding shell files
+      ansible.builtin.find:
+        file_type: file
+        paths: "{{ user_home }}/latest/bin"
+        patterns: '*.sh'
+      register: output
+    - name: changing permissions
+      ansible.builtin.file:
+        src: "{{ user_home }}/latest/bin/{{ item }}"
+        mode: +x
+      loop: "{{ output.files }}"
     - name: executing script
-      ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
+      ansible.builtin.command: "sudo sh -c {{ user_home }}/latest/bin/*.sh'"
       when: not tomcat_startup.stat.exists
     - name: creating system D unit file
       ansible.builtin.copy:

@@ -50,11 +50,11 @@
     - name: changing permissions
       ansible.builtin.file:
         path: "{{ item.path }}"
-        mode: +x
+        mode: '721'
         state: file
       with_items: "{{ output.files }}"
     - name: executing shell files
-      ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
+      ansible.builtin.command: "sudo sh {{ user_home }}/latest/bin/*.sh'"
     - name: creating system D unit file
       ansible.builtin.copy:
         src: ubuntu.tomcat.service

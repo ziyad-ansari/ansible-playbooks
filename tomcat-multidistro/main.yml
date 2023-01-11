@@ -54,7 +54,7 @@
         state: file
       with_items: "{{ output.files }}"
     - name: executing shell files
-      ansible.builtin.command: "sudo sh {{ output.files }}"
+      ansible.builtin.command: "sudo sh -c 'chmod +x {{ user_home }}/latest/bin/*.sh'"
     - name: creating system D unit file
       ansible.builtin.copy:
         src: ubuntu.tomcat.service

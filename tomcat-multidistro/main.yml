@@ -34,6 +34,13 @@
         src: "{{ user_home }}/apache-tomcat-{{ tomcat_version }}"
         path: "{{ user_home }}/latest"
         state: link
+    - name: change ownership
+      ansible.builtin.file:
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        path: "{{ user_home }}"
+        recurse: true
+        state: directory
     - name: finding shell files
       ansible.builtin.find:
         file_type: file
@@ -44,7 +51,7 @@
       ansible.builtin.file:
         path: "{{ item.path }}"
         mode: +x
-        state: present
+        state: file
       with_items: "{{ output.files }}"
       when: not tomcat_startup.stat.exists
     - name: creating system D unit file
@@ -73,13 +80,6 @@
         group: "{{ group_name }}"
       notify:
         - restart tomcat
-    - name: change ownership
-      ansible.builtin.file:
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-        path: "{{ user_home }}"
-        recurse: true
-        state: directory
       notify:
         - restart tomcat
     - name: change in context file

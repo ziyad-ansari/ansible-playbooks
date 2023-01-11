@@ -44,7 +44,7 @@
       register: output
     - name: changing permissions
       ansible.builtin.file:
-        src: "{{ user_home }}/latest/bin/{{ item }}"
+        path: "{{ user_home }}/latest/bin/{{ item }}"
         mode: +x
       loop: "{{ output.files }}"
     - name: executing script

@@ -65,6 +65,15 @@
         group: "{{ group_name }}"
       notify:
         - restart tomcat
+    - name: change ownership
+      ansible.builtin.file:
+        owner: "{{ user_name }}"
+        group: "{{ group_name }}"
+        path: "{{ user_home }}"
+        recurse: true
+        state: directory
+      notify:
+        - restart tomcat
     - name: change in context file
       ansible.builtin.copy:
         src: context.xml
@@ -90,10 +99,4 @@
         name: "{{ service_name }}"
         daemon_reload: true
         state: reloaded
-    - name: change ownership
-      ansible.builtin.file:
-        owner: "{{ user_name }}"
-        group: "{{ group_name }}"
-        path: "{{ user_home }}"
-        recurse: true
-        state: directory
+    

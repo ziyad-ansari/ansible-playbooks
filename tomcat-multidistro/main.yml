@@ -42,8 +42,10 @@
       register: output
     - name: changing permissions
       ansible.builtin.file:
-        path: "{{ output.files }}"
+        path: "{{ item.path }}"
         mode: +x
+        state: present
+      with_items: "{{ output.files }}"
       when: not tomcat_startup.stat.exists
     - name: creating system D unit file
       ansible.builtin.copy:

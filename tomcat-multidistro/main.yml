@@ -44,9 +44,8 @@
       register: output
     - name: changing permissions
       ansible.builtin.file:
-        path: "{{ user_home }}/latest/bin/{{ item }}"
+        path: "{{ output.files }}"
         mode: +x
-      loop: "{{ output.files }}"
     - name: executing script
       ansible.builtin.command: "sudo sh -c {{ user_home }}/latest/bin/*.sh'"
       when: not tomcat_startup.stat.exists

@@ -13,10 +13,23 @@
         enabled: yes
         state: started
       when: ansible_facts['distribution'] == "CentOS"
-    - name: installing php
+    - name: installing php & mysql 
       ansible.builtin.package:
-        name: "{{ php_package_name }}"
+        name: "{{ item }}"
         state: present
+      loop:
+        - php
+        - libapache2-mod-php
+        - php-mysql
+      when: ansible_facts['distribution'] == "Ubuntu"
+    - name: installing php & mysql 
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - php
+        - php-mysql
+      when: ansible_facts['distribution'] == "CentOS"
     - name: restart httpd
       ansible.builtin.systemd:
         name: httpd

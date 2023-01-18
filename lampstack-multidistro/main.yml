@@ -28,7 +28,7 @@
         state: present
       loop:
         - php
-        - php-mysql
+        - php-mysqlnd
       when: ansible_facts['distribution'] == "CentOS"
       notify:
         - restart httpd

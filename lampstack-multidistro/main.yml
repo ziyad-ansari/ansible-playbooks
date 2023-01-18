@@ -30,13 +30,15 @@
         - php
         - php-mysql
       when: ansible_facts['distribution'] == "CentOS"
-    - name: restart httpd
-      ansible.builtin.systemd:
-        name: httpd
-        state: restarted
+      notify:
+        - restart httpd
       when: ansible_facts['distribution'] == "CentOS"
     - name: copy info.php file
       ansible.builtin.copy:
         src: info.php
         dest: /var/www/html
-        
+  handlers:
+    - name: restart httpd
+      ansible.builtin.systemd:
+        name: httpd
+        state: restarted

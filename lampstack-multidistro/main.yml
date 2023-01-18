@@ -4,10 +4,26 @@
   tasks:
     - name: installing apache
       ansible.builtin.package:
-        name: "{{ apache2_package_name }}"
+        update_cache: yes
+        name: "{{ apache_package_name }}"
         state: present
+    - name: enable and start httpd
+      ansible.builtin.systemd:
+        name: httpd
+        enabled: yes
+        state: started
+      when: ansible_facts['distribution'] == "CentOS"
     - name: installing php
       ansible.builtin.package:
         name: "{{ php_package_name }}"
         state: present
-    
+    - name: restart httpd
+      ansible.builtin.systemd:
+        name: httpd
+        state: restarted
+      when: ansible_facts['distribution'] == "CentOS"
+    - name: copy info.php file
+      ansible.builtin.copy:
+        src: info.php
+        dest: /var/www/html
+        

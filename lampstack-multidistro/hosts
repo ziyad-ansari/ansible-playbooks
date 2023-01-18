@@ -1,4 +1,4 @@
 [webserver]
-172.19.0.2  apache2_package_name=apache2 php_package_name=php libapache2-mod-php php-mysql
+172.19.0.2  apache_package_name=apache2 php_package_name=php libapache2-mod-php php-mysql
 
-172.19.0.6  apache2_package_name=httpd php_package_name=php php-mysql
+172.19.0.6  apache_package_name=httpd php_package_name=php php-mysql

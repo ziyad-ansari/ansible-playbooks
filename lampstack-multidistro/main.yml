@@ -32,7 +32,6 @@
       when: ansible_facts['distribution'] == "CentOS"
       notify:
         - restart httpd
-      when: ansible_facts['distribution'] == "CentOS"
     - name: copy info.php file
       ansible.builtin.copy:
         src: info.php

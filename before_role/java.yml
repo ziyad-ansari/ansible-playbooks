@@ -1,0 +1,16 @@
+- name: install java
+  hosts: all
+  become: yes
+  vars:
+    java_package_name: openjdk-11-jdk
+  tasks:
+    - name: install jdk
+      ansible.builtin.package:
+        name: "{{ java_package_name }}"
+        state: present
+      notify:
+        - java is installed
+  handlers:
+    - name: java is installed 
+      ansible.builtin.debug:
+        msg: java is installed

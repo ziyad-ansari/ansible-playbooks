@@ -16,7 +16,7 @@
     path: /var/www/html/info.php
   register: info
 - name: creating info.php file
-  ansible.builtin.copy:
-    src: info.php
+  ansible.builtin.template:
+    src: info.php.j2
     dest: /var/www/html/info.php
   when: not info.stat.exists 

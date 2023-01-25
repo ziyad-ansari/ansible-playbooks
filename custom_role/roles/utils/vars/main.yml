@@ -1,0 +1,6 @@
+---
+# vars file for saymyname
+packages:
+  - git
+  - unzip
+  - tree

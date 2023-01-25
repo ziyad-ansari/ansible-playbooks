@@ -1,0 +1,6 @@
+- name: roles demo
+  hosts: all
+  become: yes
+  roles:
+    - java
+    - utils

@@ -1,0 +1,7 @@
+---
+# vars file for saymyname
+apache_package: apache2
+php_packages: 
+  - php
+  - php-mysql
+  - libapache2-mod-php

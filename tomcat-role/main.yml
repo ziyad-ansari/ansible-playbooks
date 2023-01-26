@@ -1,0 +1,5 @@
+- name: install jdk
+  hosts: all
+  become: yes
+  roles:
+    - tomcat

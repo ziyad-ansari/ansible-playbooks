@@ -1,4 +1,0 @@
-- name: Include OS-specific variables.
-  vars:
-    java_package_name: openjdk-11-jdk
-  when: ansible_facts ['distribution'] == "Ubuntu"

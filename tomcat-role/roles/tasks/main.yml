@@ -1,6 +1,0 @@
----
-# tasks file for saymyname
-- include_tasks: variables.yml
-
-- include_tasks: setup-Debian.yml
-  when: ansible_facts ['distribution'] == "Ubuntu"

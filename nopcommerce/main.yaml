@@ -29,7 +29,7 @@
         name: nginx
         state: started
     - name: modify reverse proxy
-      ansible.builtin.file:
+      ansible.builtin.copy:
         src: default
         dest: "/etc/nginx/sites-available/default"
         state: file

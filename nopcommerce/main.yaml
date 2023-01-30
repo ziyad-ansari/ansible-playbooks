@@ -32,7 +32,6 @@
       ansible.builtin.copy:
         src: default
         dest: "/etc/nginx/sites-available/default"
-        state: file
     - name: create a directory
       ansible.builtin.file:
         dest: /var/www/nopCommerce

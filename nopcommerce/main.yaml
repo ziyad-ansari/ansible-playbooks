@@ -4,7 +4,7 @@
   vars:
     microsoft_package_deb: "https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb"
     apt_https_transport: apt-transport-https
-    asp_netcore_runtime: aspnetcore-runtime-7.0
+    asp_netcore_runtime: aspnetcore-runtime-6.0
   tasks:
     - name: download microsoft package
       ansible.builtin.command: "wget {{ microsoft_package_deb }}"

@@ -9,7 +9,7 @@
     - name: download microsoft package
       ansible.builtin.command: "wget {{ microsoft_package_deb }}"
     - name: install microsoft_package_deb
-      ansible.builtin.commnad: "dpkg -i packages-microsoft-prod.deb"
+      ansible.builtin.command: "dpkg -i packages-microsoft-prod.deb"
     - name: install .net core runtime
       ansible.builtin.package:
         name: "{{ item }}"
@@ -38,12 +38,12 @@
       ansible.builtin.get_url: 
         url: "https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.1/nopCommerce_4.60.1_NoSource_linux_x64.zip"
         dest: /var/www/nopCommerce
+      notify:
+        - install nopCommerce
     - name: install unzip
       ansible.builtin.package:
         name: unzip
         state: present
-    - name: install nopCommerce
-      ansible.builtin.command: "unzip /var/www/nopCommerce/nopCommerce_4.60.1_NoSource_linux_x64.zip"
     - name: create bin directory
       ansible.builtin.file:
         dest: /var/www/nopCommerce/bin
@@ -59,10 +59,9 @@
         group: www-data 
         state: directory
     - name: create nopcommerce service
-      ansible.builtin.file:
+      ansible.builtin.copy:
         src: nopCommerce.service
         dest: "/etc/systemd/system/nopCommerce.service"
-        state: touch
     - name: run nginx service
       ansible.builtin.systemd:
         name: nopCommerce.service
@@ -70,6 +69,8 @@
       notify: 
         - restart nginx
   handlers:
+    - name: install nopCommerce
+      ansible.builtin.command: "unzip /var/www/nopCommerce/nopCommerce_4.60.1_NoSource_linux_x64.zip"
     - name: restart nginx
       ansible.builtin.systemd:
         name: nginx

@@ -71,6 +71,8 @@
       ansible.builtin.systemd:
         name: nopCommerce.service
         state: started
+    - name: run application
+      ansible.builtin.command: dotnet Nop.Web.dll
       notify: 
         - restart nginx
   handlers:

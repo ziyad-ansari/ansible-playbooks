@@ -34,10 +34,15 @@
       ansible.builtin.file:
         dest: /var/www/nopCommerce
         state: directory
+    - name: checking nopCommerce zip file
+      ansible.builtin.stat:
+        path: /var/www/nopCommerce/nopCommerce_4.60.1_NoSource_linux_x64.zip
+      register: zipfile
     - name: download nopCommerce
       ansible.builtin.get_url: 
         url: "https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.1/nopCommerce_4.60.1_NoSource_linux_x64.zip"
         dest: /var/www/nopCommerce
+      when: not zipfile.stat.exists
       notify:
         - install nopCommerce
     - name: install unzip

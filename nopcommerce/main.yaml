@@ -37,7 +37,7 @@
         dest: /var/www/nopCommerce
         state: directory
     - name: download nopCommerce
-      ansible.get_url: 
+      ansible.builtin.get_url: 
         url: "https://github.com/nopSolutions/nopCommerce/releases/download/release-4.60.1/nopCommerce_4.60.1_NoSource_linux_x64.zip"
         dest: /var/www/nopCommerce
     - name: install unzip

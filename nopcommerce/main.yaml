@@ -4,14 +4,12 @@
   vars:
     microsoft_package_deb: "https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb"
     apt_https_transport: apt-transport-https
-    asp_netcore_runtime: aspnetcore-runtime-6.0
+    asp_netcore_runtime: aspnetcore-runtime-7.0
   tasks:
     - name: download microsoft package
       ansible.builtin.command: "wget {{ microsoft_package_deb }}"
     - name: install microsoft_package_deb
-      ansible.builtin.dpkg_selections:
-        name: packages-microsoft-prod.deb
-        selection: install
+      ansible.builtin.commnad: "dpkg -i packages-microsoft-prod.deb"
     - name: install .net core runtime
       ansible.builtin.package:
         name: "{{ item }}"
@@ -56,7 +54,7 @@
         state: directory
     - name: changing permissions
       ansible.builtin.file:
-        src: /var/www/nopCommerce
+        path: /var/www/nopCommerce
         owner: www-data
         group: www-data 
         state: directory
